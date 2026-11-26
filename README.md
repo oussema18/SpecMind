@@ -80,40 +80,6 @@ Each product record stores:
 
 The pipeline skips existing source paths by default and supports forced reprocessing through `run_pipeline(force=True)`. The database upsert uses `source_path` as its conflict key.
 
-## Local setup
-
-Prerequisites: Python 3.10+, Docker with Compose, and a running Ollama installation.
-
-```bash
-python -m venv .venv
-# Activate the virtual environment for your operating system.
-python -m pip install -r requirements.txt
-python -m pip install ollama pydantic
-docker compose up -d
-ollama pull qwen2.5:3b
-```
-
-The additional installation command is currently required because Ollama and Pydantic are not yet listed in the committed requirements file.
-
-Create a local `.env` file with the development database settings:
-
-```dotenv
-DB_HOST=127.0.0.1
-DB_PORT=5433
-DB_NAME=specmind
-DB_USER=specmind
-DB_PASSWORD=specmind_dev
-```
-
-These settings match the local Docker Compose configuration; do not use the example password in production.
-
-Before running ingestion, initialize `public.products` with the columns expected by `src/database/repository.py`, including an `id` primary key, JSONB specifications, and a unique constraint on `source_path`. A version-controlled database initialization script is not yet included.
-
-Place the PDFs in their category folders, then run from the repository root:
-
-```bash
-python -m src.ingestion.pipeline
-```
 
 ## Next steps
 
