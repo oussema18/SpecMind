@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: specmind-db
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: specmind
+      POSTGRES_PASSWORD: specmind_dev
+      POSTGRES_DB: specmind
+
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
